@@ -4,7 +4,7 @@ from random import randint
 # Firstly create a list of guessing word
 words = ('charcoal', 'panda', 'hyperventilation', 'violence')
 # Secondly, number of wrongly guessed letters
-tries_number = 5
+attempts = 5
 
 
 # ===========FUNCTIONS============
@@ -33,29 +33,34 @@ def letter_check(letter, word):
 
 # ===========BODY=================
 
-# Firstly grab one random word from the list
-word = words[randint(0, len(words) - 1)]
-# Display a greeting, masked word and ask a user to enter a letter
-word_masked = '*' * len(word)
-print(
-    f'Hello! We are glad to introduce you the hangman game!\nYour word is {word_masked}.\nYou have {tries_number} attempts left\n')
-# Looping script stuff while there are tries and word is not guessed
-while tries_number > 0 and word_masked.count('*') != 0:
-    # Waiting for the entered letter and checking if it's actually a single letter
-    letter = str(input('Please, enter your letter: '))
-    while len(letter) > 1:
-        letter = str(input('Please, enter a SINGLE letter: '))
-    # Check the letter
-    if letter_check(letter, word):
-        indexes = find_ch(letter, word)
-        word_masked = list(word_masked)
-        for i in range(len(indexes)):
-            word_masked[indexes[i]] = letter
-        word_masked = ''.join(word_masked)
-        print(word_masked)
-    # Check number of attempts
-if tries_number < 1:
-    print('Sorry, but the game is over')
-else:
-    print('Congratulations! You are guessed it out!')
-
+# Create 'do...while' loop for game repeating
+while True:
+    # Firstly create a variable to count tries
+    tries_number = attempts
+    # Secondly grab one random word from the list
+    word = words[randint(0, len(words) - 1)]
+    # Display a greeting, masked word and ask a user to enter a letter
+    word_masked = '*' * len(word)
+    print(f'Hello! We are glad to introduce you the hangman game!\nYour word is {word_masked}.\nYou have {tries_number} attempts left\n')
+    # Looping script stuff while there are tries and word is not guessed
+    while tries_number > 0 and word_masked.count('*') != 0:
+        # Waiting for the entered letter and checking if it's actually a single letter
+        letter = str(input('Please, enter your letter: '))
+        while len(letter) > 1:
+            letter = str(input('Please, enter a SINGLE letter: '))
+        # Check the letter
+        if letter_check(letter, word):
+            indexes = find_ch(letter, word)
+            word_masked = list(word_masked)
+            for i in range(len(indexes)):
+                word_masked[indexes[i]] = letter
+            word_masked = ''.join(word_masked)
+            print(word_masked)
+        # Check number of attempts
+    if tries_number < 1:
+        print('Sorry, but the game is over')
+    else:
+        print('Congratulations! You are guessed it out!')
+    # Closing 'do...while' condition
+    if str(input('Wanna try again? If you want to exit, type "no". In any other case, game starts again: ')).lower() == 'no':
+        break
