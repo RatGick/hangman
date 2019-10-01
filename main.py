@@ -54,5 +54,8 @@ while tries_number > 0 and word_masked.count('*') != 0:
         word_masked = ''.join(word_masked)
         print(word_masked)
     # Check number of attempts
-    if tries_number < 1:
-        print('Sorry, but the game is over')
+if tries_number < 1:
+    print('Sorry, but the game is over')
+else:
+    print('Congratulations! You are guessed it out!')
+
