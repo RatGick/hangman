@@ -19,20 +19,16 @@ def find_ch(letter, word):
     return indexes
 
 
-def letter_check(letter, word, word_masked, tries_number):
+def letter_check(letter, word):
+    global tries_number
     if word.count(letter) == 0:
         tries_number -= 1
         print(f'{letter} is seems to not be included, boy.\n')
         print(f'You have {tries_number} attempts left.\n')
+        return False
     else:
         print('You are right!')
-        indexes = find_ch(letter, word)
-        word_masked = list(word_masked)
-        for i in range(len(indexes)):
-            word_masked[indexes[i]] = letter
-        word_masked = ''.join(word_masked)
-        print(word_masked)
-        return word_masked
+        return True
 
 
 # ===========BODY=================
@@ -44,13 +40,19 @@ word_masked = '*' * len(word)
 print(
     f'Hello! We are glad to introduce you the hangman game!\nYour word is {word_masked}.\nYou have {tries_number} attempts left\n')
 # Looping script stuff while there are tries and word is not guessed
-while tries_number > 0 and word_masked.count('*') != len(word_masked):
+while tries_number > 0 and word_masked.count('*') != 0:
     # Waiting for the entered letter and checking if it's actually a single letter
     letter = str(input('Please, enter your letter: '))
     while len(letter) > 1:
         letter = str(input('Please, enter a SINGLE letter: '))
     # Check the letter
-    letter_check(letter, word, word_masked, tries_number)
+    if letter_check(letter, word):
+        indexes = find_ch(letter, word)
+        word_masked = list(word_masked)
+        for i in range(len(indexes)):
+            word_masked[indexes[i]] = letter
+        word_masked = ''.join(word_masked)
+        print(word_masked)
     # Check number of attempts
     if tries_number < 1:
         print('Sorry, but the game is over')
